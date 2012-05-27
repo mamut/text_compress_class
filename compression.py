@@ -12,12 +12,6 @@ config = {
                 'datasets/doyle', 'datasets/twain']
     }
 
-parser = argparse.ArgumentParser(description="compression based text"
-        " classification experiment")
-parser.add_argument('-c', '--compress', action='store_true',
-        help="prepare reference datasets")
-options = parser.parse_args()
-
 
 class DirCompressor:
 
@@ -35,6 +29,16 @@ class DirCompressor:
 
     def bzipper(self):
         return lambda: bz2.BZ2File(self.path + '.bz2', 'w')
+
+
+class Main:
+
+    def __init__(self, options):
+        self.options = options
+
+    def run(self):
+        if self.options.compress:
+            prepare_datasets(config['datasets'])
 
 
 def prepare_datasets(data_sets):
@@ -65,6 +69,14 @@ def read_all(file):
         return file.read()
 
 
+def extract_options():
+    parser = argparse.ArgumentParser(description="compression based text"
+            " classification experiment")
+    parser.add_argument('-c', '--compress', action='store_true',
+            help="prepare reference datasets")
+    return parser.parse_args()
+
+
 if __name__ == '__main__':
-    if options.compress:
-        prepare_datasets(config['datasets'])
+    options = extract_options()
+    Main(options).run()
