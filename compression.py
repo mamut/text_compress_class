@@ -54,12 +54,9 @@ def files_in_dir(path):
 
 
 def read_all(file):
-    try:
-        print file
-        with open(file) as file:
-            return file.read()
-    except IOError:
-        return ""
+    print file
+    with open(file) as file:
+        return file.read()
 
 
 if __name__ == '__main__':
