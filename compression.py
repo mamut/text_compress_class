@@ -19,6 +19,24 @@ parser.add_argument('-c', '--compress', action='store_true',
 options = parser.parse_args()
 
 
+class DirCompressor:
+
+    def __init__(self, path):
+        self.path = path
+
+    def implementations(self):
+        compressors = [self.gzipper(), self.bzipper()]
+        for compressor in compressors:
+            with compressor() as buffer:
+                yield buffer
+
+    def gzipper(self):
+        return lambda: gzip.open(self.path + '.gz', 'wb')
+
+    def bzipper(self):
+        return lambda: bz2.BZ2File(self.path + '.bz2', 'w')
+
+
 def prepare_datasets(data_sets):
     for set in data_sets:
         compress_dir(set)
@@ -26,20 +44,8 @@ def prepare_datasets(data_sets):
 
 def compress_dir(path):
     data = dir_contents(path)
-    gzip_it(data, path + '.gz')
-    bz2_it(data, path + '.bz2')
-
-
-def gzip_it(data, path):
-    with gzip.open(path, 'wb') as buffer:
-        print path
-        buffer.write(data)
-
-
-def bz2_it(data, path):
-    with bz2.BZ2File(path, 'w') as buffer:
-        print path
-        buffer.write(data)
+    for file in DirCompressor(path).implementations():
+        file.write(data)
 
 
 def dir_contents(dirpath):
