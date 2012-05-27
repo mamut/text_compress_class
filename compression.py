@@ -69,14 +69,15 @@ def read_all(file):
         return file.read()
 
 
-def extract_options():
-    parser = argparse.ArgumentParser(description="compression based text"
-            " classification experiment")
-    parser.add_argument('-c', '--compress', action='store_true',
-            help="prepare reference datasets")
-    return parser.parse_args()
-
-
 if __name__ == '__main__':
+
+    def extract_options():
+        parser = argparse.ArgumentParser(
+                description="compression based text classification experiment")
+        parser.add_argument('-c', '--compress',
+                action='store_true',
+                help="prepare reference datasets")
+        return parser.parse_args()
+
     options = extract_options()
     Main(options).run()
