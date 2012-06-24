@@ -7,10 +7,9 @@ import bz2
 import argparse
 
 config = {
-        'datasets':
-            ['datasets/austen', 'datasets/dickens',
-                'datasets/doyle', 'datasets/twain']
-    }
+    'datasets':
+    ['datasets/austen', 'datasets/dickens', 'datasets/doyle', 'datasets/twain']
+}
 
 
 class DirCompressor:
@@ -33,12 +32,23 @@ class DirCompressor:
 
 class Main:
 
-    def __init__(self, options):
-        self.options = options
+    def parser(self):
+        parser = argparse.ArgumentParser(
+            description="compression based text classification experiment")
+        parser.add_argument('-c', '--compress',
+                            action='store_true',
+                            help="prepare reference datasets")
+        return parser
+
+    def extract_options(self):
+        return self.parser().parse_args()
 
     def run(self):
-        if self.options.compress:
+        options = self.extract_options()
+        if options.compress:
             prepare_datasets(config['datasets'])
+        else:
+            self.parser().print_help()
 
 
 def prepare_datasets(data_sets):
@@ -70,14 +80,4 @@ def read_all(file):
 
 
 if __name__ == '__main__':
-
-    def extract_options():
-        parser = argparse.ArgumentParser(
-                description="compression based text classification experiment")
-        parser.add_argument('-c', '--compress',
-                action='store_true',
-                help="prepare reference datasets")
-        return parser.parse_args()
-
-    options = extract_options()
-    Main(options).run()
+    Main().run()
