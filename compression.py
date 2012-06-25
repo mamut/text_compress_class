@@ -38,6 +38,9 @@ class Main:
         parser.add_argument('-c', '--compress',
                             action='store_true',
                             help="prepare reference datasets")
+        parser.add_argument('-l', '--classify',
+                            action='store',
+                            help="classify given text")
         return parser
 
     def extract_options(self):
@@ -46,37 +49,37 @@ class Main:
     def run(self):
         options = self.extract_options()
         if options.compress:
-            prepare_datasets(config['datasets'])
+            self.prepare_datasets(config['datasets'])
+        elif options.classify:
+            self.classify_file(options.classify)
         else:
             self.parser().print_help()
 
+    def prepare_datasets(self, data_sets):
+        for set in data_sets:
+            self.compress_dir(set)
 
-def prepare_datasets(data_sets):
-    for set in data_sets:
-        compress_dir(set)
+    def classify_file(self, filename):
+        print filename
 
+    def compress_dir(self, path):
+        data = self.dir_contents(path)
+        for file in DirCompressor(path).implementations():
+            file.write(data)
 
-def compress_dir(path):
-    data = dir_contents(path)
-    for file in DirCompressor(path).implementations():
-        file.write(data)
+    def dir_contents(self, dirpath):
+        contents = []
+        for file in self.files_in_dir(dirpath):
+            contents.append(self.read_all(file))
+        return '\n'.join(contents)
 
+    def files_in_dir(self, path):
+        return (os.path.join(path, file) for file in os.listdir(path))
 
-def dir_contents(dirpath):
-    contents = []
-    for file in files_in_dir(dirpath):
-        contents.append(read_all(file))
-    return '\n'.join(contents)
-
-
-def files_in_dir(path):
-    return (os.path.join(path, file) for file in os.listdir(path))
-
-
-def read_all(file):
-    print file
-    with open(file) as file:
-        return file.read()
+    def read_all(self, file):
+        print file
+        with open(file) as file:
+            return file.read()
 
 
 if __name__ == '__main__':

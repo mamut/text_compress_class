@@ -2,3 +2,4 @@
 *.bz2
 *.pyc
 *.txt
+.DS_Store
