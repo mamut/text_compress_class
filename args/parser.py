@@ -11,7 +11,7 @@ class Parser:
                             action='store_true',
                             help="prepare reference datasets")
 
-        self.parser.add_argument('-l', '--classify',
+        self.parser.add_argument('-t', '--samplefile',
                             action='store',
                             help="classify given text")
 

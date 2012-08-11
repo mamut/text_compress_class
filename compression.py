@@ -19,8 +19,8 @@ class Main:
         options = self.parser.options()
         if options.compress:
             self.prepare_datasets(config['datasets'])
-        elif options.classify:
-            self.classify_file(options.classify)
+        elif options.samplefile:
+            self.classify_file(options.samplefile)
         else:
             self.parser.print_help()
 
