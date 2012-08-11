@@ -4,7 +4,8 @@
 import os
 import gzip
 import bz2
-import argparse
+
+import args
 
 config = {
     'datasets':
@@ -32,19 +33,14 @@ class DirCompressor:
 
 class Main:
 
-    def parser(self):
-        parser = argparse.ArgumentParser(
-            description="compression based text classification experiment")
-        parser.add_argument('-c', '--compress',
-                            action='store_true',
-                            help="prepare reference datasets")
-        parser.add_argument('-l', '--classify',
-                            action='store',
-                            help="classify given text")
-        return parser
+    def __init__(self):
+        self.parser = args.Parser()
 
     def extract_options(self):
-        return self.parser().parse_args()
+        return self.parser.options()
+
+    def print_help(self):
+        self.parser.print_help()
 
     def run(self):
         options = self.extract_options()
@@ -53,7 +49,7 @@ class Main:
         elif options.classify:
             self.classify_file(options.classify)
         else:
-            self.parser().print_help()
+            self.print_help()
 
     def prepare_datasets(self, data_sets):
         for set in data_sets:
