@@ -4,23 +4,23 @@
 import args
 import compression
 
-config = {
-    'datasets':
-    ['datasets/austen', 'datasets/dickens', 'datasets/doyle', 'datasets/twain']
-}
-
 
 class Main:
+
+    def datasets(self, path):
+        with open(path) as datasets:
+            return [dataset.strip() for dataset in datasets.readlines()]
 
     def __init__(self):
         self.parser = args.Parser()
 
     def run(self):
         options = self.parser.options()
-        if options.compress:
-            self.prepare_datasets(config['datasets'])
-        elif options.samplefile:
-            self.classify_file(options.samplefile)
+        if options.compress_datasets:
+            datasets = self.datasets(options.compress_datasets)
+            self.prepare_datasets(datasets)
+        elif options.sample_file:
+            self.classify_file(options.sample_file)
         else:
             self.parser.print_help()
 
