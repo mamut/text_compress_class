@@ -8,7 +8,7 @@ class BatchCompressor:
 
     def compress(self, out_path):
         data = self._compile_files()
-        for file in self._implementations(out_path):
+        for file in CompressMethodsIterator(out_path).iterate():
             file.write(data)
 
     def _compile_files(self):
@@ -21,8 +21,3 @@ class BatchCompressor:
         print filepath
         with open(filepath) as file:
             return file.read()
-
-    def _implementations(self, out_path):
-        for compressor in CompressMethodsIterator(out_path):
-            with compressor() as buffer:
-                yield buffer

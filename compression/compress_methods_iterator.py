@@ -7,14 +7,10 @@ class CompressMethodsIterator:
         self.path = path
         self.compressors = self._compressors()
 
-    def __iter__(self):
-        return self
-
-    def next(self):
-        if self.compressors:
-            return self.compressors.pop()
-        else:
-            raise StopIteration
+    def iterate(self):
+        for compressor in self._compressors():
+            with compressor() as buffer:
+                yield buffer
 
     def _compressors(self):
         return [
