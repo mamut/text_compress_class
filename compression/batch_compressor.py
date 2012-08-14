@@ -1,5 +1,4 @@
-import gzip
-import bz2
+from . import CompressMethodsIterator
 
 
 class BatchCompressor:
@@ -24,13 +23,6 @@ class BatchCompressor:
             return file.read()
 
     def _implementations(self, out_path):
-        compressors = [self._gzipper(out_path), self._bzipper(out_path)]
-        for compressor in compressors:
+        for compressor in CompressMethodsIterator(out_path):
             with compressor() as buffer:
                 yield buffer
-
-    def _gzipper(self, path):
-        return lambda: gzip.open(path + '.gz', 'wb')
-
-    def _bzipper(self, path):
-        return lambda: bz2.BZ2File(path + '.bz2', 'w')

@@ -1,2 +1,3 @@
+from compress_methods_iterator import CompressMethodsIterator
 from batch_compressor import BatchCompressor
 from directory_compressor import DirectoryCompressor
