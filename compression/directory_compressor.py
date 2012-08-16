@@ -1,6 +1,5 @@
-import os
-
 from . import BatchCompressor
+from utils import files_in_dir
 
 
 class DirectoryCompressor:
@@ -9,10 +8,6 @@ class DirectoryCompressor:
         self.path = path
 
     def compress(self):
-        list_of_files = self._files_in_dir()
+        list_of_files = files_in_dir(self.path)
         compressor = BatchCompressor(list_of_files)
         compressor.compress(self.path)
-
-    def _files_in_dir(self):
-        return (os.path.join(self.path, file)
-                for file in os.listdir(self.path))
