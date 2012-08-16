@@ -19,6 +19,6 @@ class AppendingCompressor:
         return list(files_in_dir(self.dataset)) + [self.testfile]
 
     def _result_filename(self):
-        base, ext = self.testfile.split('.')
+        base = self.testfile.split('.')[0]
         dataset = self.dataset.split('/')[-1]
-        return "{0}_{1}.{2}".format(base, dataset, ext)
+        return "{0}_{1}".format(base, dataset)
