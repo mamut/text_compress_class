@@ -16,11 +16,12 @@ class Main:
 
     def run(self):
         options = self.parser.options()
-        if options.compress_datasets:
+        if options.compress_datasets and not options.sample_file:
             datasets = self.datasets(options.compress_datasets)
             self.prepare_datasets(datasets)
-        elif options.sample_file:
-            self.classify_file(options.sample_file)
+        elif options.compress_datasets and options.sample_file:
+            datasets = self.datasets(options.compress_datasets)
+            self.classify_file(options.sample_file, datasets)
         else:
             self.parser.print_help()
 
@@ -28,8 +29,10 @@ class Main:
         for set in data_sets:
             compression.DirectoryCompressor(set).compress()
 
-    def classify_file(self, filename):
-        print filename
+    def classify_file(self, filename, datasets):
+        for dataset in datasets:
+            compressor = compression.AppendingCompressor(filename, dataset)
+            compressor.compress()
 
 
 if __name__ == '__main__':
