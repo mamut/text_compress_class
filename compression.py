@@ -1,8 +1,11 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import pprint
+
 import args
 import compression
+import classification
 
 
 class Main:
@@ -33,6 +36,11 @@ class Main:
         for dataset in datasets:
             compressor = compression.AppendingCompressor(filename, dataset)
             compressor.compress()
+        classifier = classification.SizeChangeRatioClassifier(
+                filename, datasets)
+        result = classifier.calculate()
+        printer = pprint.PrettyPrinter(indent=2)
+        printer.pprint(result)
 
 
 if __name__ == '__main__':
