@@ -39,5 +39,6 @@ class SizeChangeRatioClassifier:
     def _compression_methods(self):
         return (
             'gz',
-            'bz2'
+            'bz2',
+            'rar'
         )

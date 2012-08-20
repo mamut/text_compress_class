@@ -1,4 +1,5 @@
 from compress_methods_iterator import CompressMethodsIterator
+from rar_archive import RarArchive
 from batch_compressor import BatchCompressor
 from directory_compressor import DirectoryCompressor
 from appending_compressor import AppendingCompressor

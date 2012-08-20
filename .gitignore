@@ -1,5 +1,6 @@
 *.gz
 *.bz2
+*.rar
 *.pyc
 *.txt
 .DS_Store

@@ -1,4 +1,5 @@
 from . import CompressMethodsIterator
+from . import RarArchive
 
 
 class BatchCompressor:
@@ -10,6 +11,8 @@ class BatchCompressor:
         data = self._compile_files()
         for file in CompressMethodsIterator(out_path).iterate():
             file.write(data)
+
+        RarArchive(self.files, out_path).compress()
 
     def _compile_files(self):
         contents = []
