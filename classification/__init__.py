@@ -1,1 +1,1 @@
-from size_change_ratio_classifier import SizeChangeRatioClassifier
+from amdl_classifier import AMDLClassifier

@@ -36,8 +36,7 @@ class Main:
         for dataset in datasets:
             compressor = compression.AppendingCompressor(filename, dataset)
             compressor.compress()
-        classifier = classification.SizeChangeRatioClassifier(
-                filename, datasets)
+        classifier = classification.AMDLClassifier(filename, datasets)
         result = classifier.calculate()
         printer = pprint.PrettyPrinter(indent=2)
         printer.pprint(result)
